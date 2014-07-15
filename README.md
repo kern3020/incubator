@@ -1,4 +1,5 @@
 incubator
 =========
 
-incubator for useful scripts 
+incubator for scripts I've found useful.
+
