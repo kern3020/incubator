@@ -22,11 +22,10 @@ LIMIT 10;" hg19
 
 class UcscGenome (object):
     def __init__(self):
-        print("Ucsc init() ")
         self.config = {
             'user': 'genome',
             'host': 'genome-mysql.cse.ucsc.edu',
-            'database': 'hg38',
+            'database': 'hg19',
             'raise_on_warnings': True,
         }
         self.cnx=None
@@ -56,8 +55,7 @@ class UcscGenome (object):
         query = '''SELECT kg.chrom, kg.txStart, kg.txEnd, x.geneSymbol \
         FROM knownGene kg, kgXref x \
         WHERE kg.chrom LIKE '{0}' AND kg.txStart >= {1} AND kg.txEnd < {2} \
-        GROUP BY(x.geneSymbol) \
-        LIMIT 10;'''.format(chr, start, end)
+        GROUP BY(x.geneSymbol);'''.format(chr, start, end)
         self.cursor.execute(query)
         for (chrom, txStart, txEdn, gene_symbol) in self.cursor:
             print ("\t{0}".format(gene_symbol))
@@ -69,7 +67,6 @@ class BedFile (object):
 
     def parse_and_call(self):
         with UcscGenome() as ucsc:
-            print('loop')
             with open(self.bed_file) as bd:
                 line = True
                 while line:
