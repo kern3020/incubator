@@ -1,0 +1,11 @@
+Need to update anisble scripts to
+
+%%% update .ssh/config file
+rover@frontend001:~$ cat .ssh/config 
+Host *
+    StrictHostKeyChecking no
+
+%%%% update .bashrc 
+export LD_LIBRARY_PATH=/mnt/bcbio/lib:${LD_LIBRARY_PATH}
+export PATH=/mnt/bcbio/bin:${PATH}
+export PERL5LIB=/mnt/bcbio/lib/perl5:/mnt/bcbio/perl5/site_perl:${PERL5LIB}
