@@ -1,0 +1,25 @@
+
+
+# Automatically generated in support of bcbio.
+# Update PATH, PERL5LIB AND LD_LIBRARY_PATH.
+if [ -z "${PATH}" ]  
+then
+   export PATH={{ bcbio_dir }}/bin
+else
+   export PATH={{ bcbio_dir }}/bin:${PATH}
+fi
+
+if [ -z "${PERL5LIB}" ]  
+then
+   export PERL5LIB={{ bcbio_dir }}/lib/perl5:{{ bcbio_dir }}/perl5/site_perl
+else
+   export PERL5LIB={{ bcbio_dir }}/lib/perl5:{{ bcbio_dir }}/perl5/site_perl:${PERL5LIB}
+fi
+
+if [ -z "${LD_LIBRARY_PATH}" ]  
+then
+   export LD_LIBRARY_PATH={{ bcbio_dir }}/lib
+else
+   export LD_LIBRARY_PATH={{ bcbio_dir }}/lib:${LD_LIBRARY_PATH}
+fi
+
