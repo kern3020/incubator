@@ -1,0 +1,19 @@
+---
+- name: configure ssh
+  hosts: gridengine_master
+  vars:
+    ssh_config_file: ~/.ssh/config
+  tasks:
+    - name: does ~/.ssh/config exists?
+      stat: path={{ ssh_config_file }}
+      register: st
+
+    - name: if ~/.ssh/config update it
+      shell: cat ../template/config.j2 >> {{ ssh_config_file }}
+      when: st.stat.exists == True 
+
+    - name: if no ~/.ssh/config file, create it
+      template: 
+        dest: "{{ ssh_config_file }}"
+        src: ../template/config.j2
+      when: st.stat.exists == False
