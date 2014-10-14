@@ -1,0 +1,21 @@
+---
+- name: append path, ld_library_path and PERL 
+  hosts: gridengine_master
+  vars:
+    tmp_file:  /tmp/bcbio-path-setup.sh
+    bcbio_dir: /mnt/bcbio
+    # using the bachrc_file variable facilitates testing. 
+    bashrc_file: ~/.ssh/config
+  tasks: 
+    - name: create file with evars with paths based on bcbio_dir
+      template:
+        src: ../template/path_setup.j2
+        dest: "{{ tmp_file }}"
+
+    - name: concatenate .bashrc file with path setup
+      shell: cat "{{ tmp_file }}" >> "{{ bashrc_file }}"
+
+    - name: remove intermediate file
+      file:
+        path: "{{ tmp_file }}"
+        state: absent
