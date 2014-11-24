@@ -45,8 +45,9 @@ it in this list? ''')
         print('''Here is a list of instances. ''')
         res_list = self._conn.get_all_reservations()
         if res_list:
-            for inst in res_list:
-                print("\ttype: {0}, zone: {1}".format(inst.instance_type, inst.placement))
+            for res in res_list:
+                for inst in res.instances:
+                        print("\ttype: {0}, zone: {1}".format(inst.instance_type, inst.placement))
         else:
             print("\tno instances")
 
