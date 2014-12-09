@@ -1,0 +1,43 @@
+---
+- name: build tools and some personalization
+  hosts: all
+  sudo: true
+  tasks:
+    - apt: name={{ item }} update_cache=yes
+      with_items:
+        - emacs23-lucid
+        - build-essential
+        - cmake
+        - unzip
+        - bzip2
+        - zlib1g
+        - zlib1g-dev
+        - libbz2-dev
+        - less
+        - tmux
+        - git
+        - vim
+        - curl
+
+- name: get SPAdes sorce
+  hosts: all
+  vars:
+    spades_name: SPAdes-3.1.1
+  sudo: true
+  tasks:
+    - get_url: 
+        url: http://spades.bioinf.spbau.ru/release3.1.1/{{ spades_name }}.tar.gz
+        dest: /tmp
+
+    - unarchive: 
+        src: /tmp/{{ spades_name }}.tar.gz
+        dest: /tmp
+        owner: jkern
+        group: jkern
+        copy: no
+
+    - shell: PREFIX=/opt/{{ spades_name }} ./spades_compile.sh
+      args:
+        chdir: /tmp/{{ spades_name }}
+      async: 45
+      poll: 5
