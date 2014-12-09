@@ -39,5 +39,4 @@
     - shell: PREFIX=/opt/{{ spades_name }} ./spades_compile.sh
       args:
         chdir: /tmp/{{ spades_name }}
-      async: 45
-      poll: 5
+

@@ -14,7 +14,7 @@ CMD="$1"
 
 case ${CMD} 
   in
-  "ssh")   gcloud compute ssh ${HOST} ;;
+  "ssh")   gcloud compute ssh ${HOST}  --zone ${ZONE} ;;
   "start") gcloud compute instances create ${HOST} --zone ${ZONE} --machine-type ${TYPE} ;;
   "stop") gcloud compute instances delete ${HOST} --zone ${ZONE} ;;
   *) echo "unknown command, ${CMD}. Ignoring."
