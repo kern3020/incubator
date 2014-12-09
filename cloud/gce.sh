@@ -2,21 +2,54 @@
 
 HOST=ameba
 ZONE=us-central1-a
-TYPE=n1-standard-2
+TYPE=n1-standard-2 # Compiling SPAdes runs out of memory on gce n1-standard-2
 
-if [ "$#" -ne 1 ] 
+
+if [ "$#" -lt 1 ] 
 then
-  echo "Usage: gce.sh {ssh | start | stop}"
+  echo "Usage: gce.sh {add-disk | ssh | start | stop}"
   exit 1 
 fi
 
 CMD="$1"
 
+if [ ${CMD}x = "add-disk"x ] 
+then 
+  if [ "$#" -eq 3 ]
+  then
+    DISK_NAME="$2"
+    DISK_SIZE="$3"
+  else
+    echo "Usage: gce.sh add-disk <name> <size>"
+    echo "\t size is in gigabytes and must be a mulitple of 10."
+    exit 1
+  fi
+fi
+
 case ${CMD} 
   in
-  "ssh")   gcloud compute ssh ${HOST}  --zone ${ZONE} ;;
-  "start") gcloud compute instances create ${HOST} --zone ${ZONE} --machine-type ${TYPE} ;;
-  "stop") gcloud compute instances delete ${HOST} --zone ${ZONE} ;;
+  "add-disk") 
+    gcloud compute disks create ${DISK_NAME} --size ${DISK_SIZE}GB --zone ${ZONE} 
+    ;; 
+  "ssh")   
+    gcloud compute ssh ${HOST} --zone ${ZONE} 
+    ;;
+  "start")
+    if [ ${CMD}x = "start"x ] 
+    then 
+      if [ "$#" -eq 1 ]
+      then
+        gcloud compute instances create ${HOST} --zone ${ZONE} --machine-type ${TYPE} 
+      else
+        gcloud compute instances create ${HOST} --zone ${ZONE} \
+          --machine-type ${TYPE} --disk "name=${2}"
+      fi
+    fi 
+
+    ;;
+  "stop") 
+    gcloud compute instances delete ${HOST} --zone ${ZONE} 
+    ;;
   *) echo "unknown command, ${CMD}. Ignoring."
 esac
 # ssh-keygen -f "~/.ssh/known_hosts" -R 130.211.148.213
