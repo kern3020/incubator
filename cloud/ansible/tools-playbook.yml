@@ -1,28 +1,8 @@
 ---
-- name: build tools and some personalization
-  hosts: all
-  sudo: true
-  tasks:
-    - apt: name={{ item }} update_cache=yes
-      with_items:
-        - emacs23-lucid
-        - build-essential
-        - cmake
-        - unzip
-        - bzip2
-        - zlib1g
-        - zlib1g-dev
-        - libbz2-dev
-        - less
-        - tmux
-        - git
-        - vim
-        - curl
-
 - name: get SPAdes sorce
   hosts: all
   vars:
-    spades_name: SPAdes-3.1.1
+    spades_name: SPAdes-3.5.0
     spades_dir:  /mnt/data/SPAdes
     mount_pt: /mnt/data
   sudo: true
@@ -39,7 +19,7 @@
 
     - name: download SPAdes source code
       get_url: 
-        url: http://spades.bioinf.spbau.ru/release3.1.1/{{ spades_name }}.tar.gz
+        url: http://spades.bioinf.spbau.ru/release3.5.0/{{ spades_name }}.tar.gz
         dest: /tmp
 
     - name: extract SPAdes 
@@ -54,44 +34,4 @@
       shell: PREFIX="{{ spades_dir }}/{{ spades_name }}" ./spades_compile.sh
       args:
         chdir: /tmp/{{ spades_name }}
-
-    - name: create ecoli_mc data directory
-      file: 
-        path: "{{ spades_dir }}/dataset/ecoli_mc"
-        state: directory
-        owner: jkern
-        group: jkern
-      tags:
-        getdata_mc
-
-    - name: download ecoli_mc test data 
-      get_url: 
-        dest: "{{ spades_dir }}/dataset/ecoli_mc"
-        url: "http://spades.bioinf.spbau.ru/spades_test_datasets/ecoli_mc/{{ item }}"
-      with_items:
-        - README
-        - s_6_1.fastq.gz
-        - s_6_2.fastq.gz
-      tags:
-        getdata_mc
-
-    - name: create ecoli_sc data directory
-      file: 
-        path: "{{ spades_dir }}/dataset/ecoli_sc"
-        state: directory
-        owner: jkern
-        group: jkern
-      tags:
-        getdata
-
-    - name: download ecoli_sc test data 
-      get_url: 
-        dest: "{{ spades_dir }}/dataset/ecoli_sc"
-        url: "http://spades.bioinf.spbau.ru/spades_test_datasets/ecoli_sc/{{ item }}"
-      with_items:
-        - README
-        - ecoli_mda_lane1_left.fastq
-        - ecoli_mda_lane1_right.fastq
-      tags:
-        getdata
 
