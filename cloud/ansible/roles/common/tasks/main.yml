@@ -1,0 +1,20 @@
+---
+- name: install build tools
+  hosts: all
+  sudo: true
+  tasks:
+    - apt: name={{ item }} update_cache=yes
+      with_items:
+        - emacs23-lucid
+        - build-essential
+        - cmake
+        - unzip
+        - bzip2
+        - zlib1g
+        - zlib1g-dev
+        - libbz2-dev
+        - less
+        - tmux
+        - git
+        - vim
+        - curl
