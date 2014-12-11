@@ -1,0 +1,10 @@
+---
+- name: spade node - install build essential; ensure spades is built and installed
+  hosts: all
+  vars:
+    spades_name: SPAdes-3.5.0
+    spades_dir:  /mnt/data/SPAdes
+    mount_pt: /mnt/data
+  tasks: 
+    - include: common/tasks/main.yml
+    - include: spades/tasks/main.yml 
