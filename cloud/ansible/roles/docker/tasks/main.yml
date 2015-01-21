@@ -1,0 +1,12 @@
+---
+- name: install dockerpy  API - pip installed by common role 
+  sudo: true
+  pip:
+    name: docker-py
+  
+- name: install docker and its dependencies
+  sudo: true
+  apt: name={{ item }}  update_cache=yes
+  with_items:
+    - docker.io
+

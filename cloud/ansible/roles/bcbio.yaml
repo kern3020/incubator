@@ -1,0 +1,8 @@
+---
+- name: create node based on the docker image from 
+  hosts: all
+  tasks:
+    - include: common/tasks/main.yml
+    - include: docker/tasks/main.yml
+    - include: bcbio/tasks/main.yml
+

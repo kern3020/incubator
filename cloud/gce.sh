@@ -1,9 +1,9 @@
 #!/bin/bash
 
 HOST=ameba
+IMAGE=ubuntu-14-04
+TYPE=n1-standard-1
 ZONE=us-central1-a
-TYPE=n1-standard-2 # Compiling SPAdes runs out of memory on gce n1-standard-2
-
 
 if [ "$#" -lt 1 ] 
 then
@@ -39,10 +39,11 @@ case ${CMD}
     then 
       if [ "$#" -eq 1 ]
       then
-        gcloud compute instances create ${HOST} --zone ${ZONE} --machine-type ${TYPE} 
+        gcloud compute instances create ${HOST} --zone ${ZONE} \
+	    --machine-type ${TYPE} --image=${IMAGE}
       else
         gcloud compute instances create ${HOST} --zone ${ZONE} \
-          --machine-type ${TYPE} --disk "name=${2}"
+            --machine-type ${TYPE} --disk "name=${2}" --image=${IMAGE}
       fi
     fi 
 

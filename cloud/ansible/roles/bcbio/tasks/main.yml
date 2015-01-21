@@ -1,0 +1,4 @@
+---
+- name: import latest stable bcbio image
+  sudo: true
+  shell: docker import https://s3.amazonaws.com/bcbio/docker/bcbio-stable.gz bcbio:stable

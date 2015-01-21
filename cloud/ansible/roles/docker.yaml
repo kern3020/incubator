@@ -1,0 +1,6 @@
+---
+- name: create docker images
+  hosts: all
+  tasks:
+    - include: docker/tasks/main.yml
+    - include: common/tasks/main.yml

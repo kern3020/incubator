@@ -1,4 +1,12 @@
 ---
+- name: bootstrapping ansibles apt module - ensure debian is up to date
+  sudo: true
+  shell: apt-get update
+
+- name: ansible depends on python-pip and python-apt debian package for the apt module
+  sudo: true
+  shell: apt-get install python-pip python-apt -y
+
 - name: install build tools
   sudo: true
   apt: name={{ item }} update_cache=yes
@@ -16,3 +24,4 @@
     - git
     - vim
     - curl
+    - python-matplotlib
