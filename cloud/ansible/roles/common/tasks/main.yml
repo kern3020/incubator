@@ -25,3 +25,5 @@
     - vim
     - curl
     - python-matplotlib
+    - nodejs
+    - npm
