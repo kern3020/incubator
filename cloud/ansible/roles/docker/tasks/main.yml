@@ -10,3 +10,8 @@
   with_items:
     - docker.io
 
+- name: user must be in docker group
+  sudo: true
+  user: name=jkern group=docker
+
+
