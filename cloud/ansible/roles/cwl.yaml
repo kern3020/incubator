@@ -1,0 +1,12 @@
+---
+- name: install cwl and friends 
+  hosts: all
+  vars:
+    # if you place the directory into the filter directly, the
+    # filter will ignored. No substitution occurs. 
+    d1: ~/src/pipelines
+    src_dir: "{{ d1 | expanduser }}"
+  tasks: 
+    - include: common/tasks/main.yml
+    - include: docker/tasks/main.yml
+    - include: cwl/tasks/main.yml
