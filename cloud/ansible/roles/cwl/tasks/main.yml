@@ -1,0 +1,20 @@
+---
+- name: create source directory
+  file:
+    dest: "{{ src_dir }}"
+    state: directory
+    
+- name: get CWL 
+  git:
+    repo: https://github.com/common-workflow-language/common-workflow-language.git
+    dest: "{{ src_dir }}/cwl"
+
+- name: install required python modules
+  sudo: true
+  pip:
+    requirements: "{{ src_dir }}/cwl/requirements.txt"
+
+- name: get rabix 
+  git:
+    repo: https://github.com/rabix/rabix.git
+    dest: "{{ src_dir }}/rabix"
