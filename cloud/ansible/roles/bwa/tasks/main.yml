@@ -1,0 +1,25 @@
+---
+- name: create a project directory
+  file:
+    dest: "{{ src_dir }}"
+    state: directory
+
+- name: git BWA
+  git:
+    repo: https://github.com/lh3/bwa.git
+    dest: "{{ src_dir }}/bwa"
+
+- name: build BWA
+  shell: make
+  args:
+    chdir: "{{ src_dir }}/bwa"
+
+- name: build index
+  shell: "{{ src_dir }}/bwa/bwa index wg.fa"
+  args: 
+    chdir: "{{ data_dir }}"
+
+- name: align sample
+  shell: "{{ src_dir }}/bwa/bwa mem wg.fa ERR302903_1.fastq  ERR302903_2.fastq > ERR302903.sam"
+  args: 
+    chdir: "{{ data_dir }}"

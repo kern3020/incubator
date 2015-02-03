@@ -1,0 +1,11 @@
+---
+- name: node for bioinformatic tools
+  hosts: all
+  vars:
+    src_dir: ~/src/bio/
+    data_dir: ~/data
+    tools_dir: ~/tools
+  tasks: 
+    - include: common/tasks/main.yml
+    - include: data/tasks/sacCer3.yml
+    - include: bwa/tasks/main.yml

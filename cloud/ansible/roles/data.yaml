@@ -1,0 +1,7 @@
+---
+- name: downloading pertinent data
+  hosts: all
+  vars:
+    data_dir: ~/data/
+  tasks:
+    - include: data/tasks/sacCer3.yml
