@@ -1,4 +1,25 @@
 ---
+- name: Does the bcbio image exist?
+  shell: docker images | grep bcbio
+  register: bcbio
+
 - name: import latest stable bcbio image
   sudo: true
   shell: docker import https://s3.amazonaws.com/bcbio/docker/bcbio-stable.gz bcbio:stable
+  when: bcbio == True
+
+- name: download conda script
+  get_url:
+    url: http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+    dest: ~/
+    mode: 0555
+
+- name: install conda
+  shell: ~/Miniconda-latest-Linux-x86_64.sh -b -p ~/install/bcbio-vm/anaconda
+
+- name: use conda to install bcbio-nextgen-vm
+  shell: ~/install/bcbio-vm/anaconda/bin/conda install --yes -c https://conda.binstar.org/bcbio bcbio-nextgen-vm
+
+- name: provide sym link in well-known location
+  sudo: true
+  shell: ln -s ~/install/bcbio-vm/anaconda/bin/bcbio_vm.py /usr/local/bin/bcbio_vm.py
