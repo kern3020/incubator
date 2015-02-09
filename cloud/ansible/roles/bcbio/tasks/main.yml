@@ -6,7 +6,7 @@
 
 - name: import latest stable bcbio image
   sudo: true
-  shell: docker import https://s3.amazonaws.com/bcbio/docker/bcbio-stable.gz bcbio:stable
+  shell: docker import https://s3.amazonaws.com/bcbio/docker/bcbio-stable.gz jkern/bcbio-dev:stable
   when: bcbio.rc == 1
 
 - name: is conda installed?
@@ -31,7 +31,11 @@
 
 - name: provide sym link in well-known location
   sudo: true
-  shell: ln -s ~/install/bcbio-vm/anaconda/bin/bcbio_vm.py /usr/local/bin/bcbio_vm.py
+  file:
+    src: "/home/jkern/install/bcbio-vm/anaconda/bin/bcbio_vm.py"
+    dest: /usr/local/bin/bcbio_vm.py
+    state: link
+    mode: 0755
   when: conda.stat.exists == False
 
 - name: install pip python modules
