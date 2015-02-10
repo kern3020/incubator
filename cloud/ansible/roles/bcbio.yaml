@@ -1,6 +1,8 @@
 ---
 - name: create node based on the docker image from 
   hosts: all
+  vars:
+    mount_pt: /mnt/data
   tasks:
     - include: common/tasks/main.yml
     - include: docker/tasks/main.yml
