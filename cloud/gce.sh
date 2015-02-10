@@ -1,7 +1,7 @@
 #!/bin/bash
 
-HOST=ameba
-IMAGE=ubuntu-14-04
+HOST=yeast
+IMAGE=alga # ubuntu-14-04
 TYPE=n1-standard-1
 ZONE=us-central1-a
 
@@ -49,8 +49,9 @@ case ${CMD}
 
     ;;
   "stop") 
-    gcloud compute instances delete ${HOST} --zone ${ZONE} 
+    gcloud compute instances delete ${HOST} --zone ${ZONE} # --keep-disks boot
     ;;
   *) echo "unknown command, ${CMD}. Ignoring."
 esac
 # ssh-keygen -f "~/.ssh/known_hosts" -R 130.211.148.213
+# gcloud compute images create alga --source-disk ameba --source-disk-zone us-central1-a
