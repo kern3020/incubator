@@ -1,4 +1,20 @@
 ---
+- name: install pip python modules
+  sudo: true
+  pip: name="{{ item }}"
+  with_items:
+    - toolz
+    - lxml
+    - pyzmq
+    - logbook
+    - cython
+    - pysam
+    - gffutils
+    - biopython
+    - pyvcf
+    - ansible
+    - elasticluster
+
 - name: Does the bcbio image exist?
   shell: docker images | grep bcbio
   ignore_errors: yes
@@ -13,7 +29,7 @@
   stat:
     path: ~/install/bcbio-vm/anaconda/bin/conda
   register: conda
-  
+
 - name: download conda script
   get_url:
     url: http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
@@ -32,27 +48,11 @@
 - name: provide sym link in well-known location
   sudo: true
   file:
-    src: "/home/jkern/install/bcbio-vm/anaconda/bin/bcbio_vm.py"
+    src: /home/jkern/install/bcbio-vm/anaconda/bin/bcbio_vm.py
     dest: /usr/local/bin/bcbio_vm.py
     state: link
     mode: 0755
   when: conda.stat.exists == False
-
-- name: install pip python modules
-  sudo: true
-  pip: name="{{ item }}"
-  with_items:
-    - toolz
-    - lxml
-    - pyzmq
-    - logbook
-    - cython
-    - pysam
-    - gffutils
-    - biopython
-    - pyvcf
-    - ansible
-    - elasticluster
 
 - name: create dir for moint point 
   sudo: true
