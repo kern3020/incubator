@@ -1,0 +1,23 @@
+---
+- name: make sample data dir structure
+  sudo: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: jkern
+    group: jkern
+  with_items:
+    - "{{ data_sample_dir }}"
+    - "{{ data_sample_dir }}/config"
+    - "{{ data_sample_dir }}/input"
+    - "{{ data_sample_dir }}/work"
+
+- stat:
+    path="{{ data_sample_dir }}/input/ERR302903_1.fastq"
+  register: sra_data
+  
+- name: download sample
+  shell: "{{tools_dir }}/sratoolkit.2.4.3-ubuntu64/bin/fastq-dump  --split-files ERR302903"
+  args:
+    chdir: "{{ data_sample_dir }}/input"
+  when: sra_data.stat.exists == False

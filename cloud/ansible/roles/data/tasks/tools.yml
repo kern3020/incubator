@@ -1,0 +1,28 @@
+--- 
+- name: make tools dir
+  sudo: true
+  file:
+    path: "{{ tools_dir }}"
+    state: directory
+    owner: jkern
+    group: jkern
+
+- stat:
+    path="{{ tools_dir }}/sratoolkit.2.4.3-ubuntu64.tar.gz"
+  register: sra
+
+- name: download ncbi SRA toolkit
+  get_url:
+    url: http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.4.3/sratoolkit.2.4.3-ubuntu64.tar.gz
+    dest: "{{ tools_dir }}"
+  when: sra.stat.exists == False
+
+- stat:
+    path="{{ tools_dir }}/sratoolkit.2.4.3-ubuntu64"
+  register: tools
+  
+- name: extract the genome
+  shell: tar -zxf sratoolkit.2.4.3-ubuntu64.tar.gz
+  args:
+    chdir: "{{ tools_dir }}"
+  when: tools.stat.exists == False

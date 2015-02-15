@@ -2,6 +2,11 @@
 - name: downloading pertinent data
   hosts: all
   vars:
-    data_dir: ~/data/
+    mount_pt: /opt/data
+    data_ref_dir: /opt/data/reference/sacCer3
+    data_sample_dir: /opt/data/sample
+    tools_dir: /opt/data/tools
   tasks:
+    - include: data/tasks/tools.yml
     - include: data/tasks/sacCer3.yml
+    - include: data/tasks/sample.yml
