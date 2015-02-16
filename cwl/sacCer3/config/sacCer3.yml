@@ -1,0 +1,17 @@
+upload:
+  dir: ../final
+fc_date: '140611'
+fc_name: yeast
+details:
+  - algorithm:
+      aligner: bwa
+      recalibrate: false
+      variantcaller: gatk
+      quality_format: Standard
+      coverage: ../input/yeast-repair.bed
+    analysis: chanjo
+    description: ERR302903
+    files:
+    - ../input/ERR302903_1.fastq.gz
+    - ../input/ERR302903_2.fastq.gz
+    genome_build: sacCer3
