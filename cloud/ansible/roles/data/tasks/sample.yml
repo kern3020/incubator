@@ -21,3 +21,21 @@
   args:
     chdir: "{{ data_sample_dir }}/input"
   when: sra_data.stat.exists == False
+
+- name: retrieve sample config file from github
+  get_url:
+    url: https://raw.githubusercontent.com/kern3020/incubator/master/cwl/sacCer3/config/sacCer3.yml
+    dest: "{{ data_sample_dir }}/config"
+    validate_certs: no
+
+- name: retrieve system config file from github
+  get_url:
+    url: https://raw.githubusercontent.com/chapmanb/bcbio-nextgen/master/config/bcbio_system.yaml
+    dest: "{{ data_sample_dir }}/config"
+    validate_certs: no
+
+- name: retrieve bed input  from github
+  get_url:
+    url: https://raw.githubusercontent.com/kern3020/incubator/master/cwl/sacCer3/input/yeast-repair.bed
+    dest: "{{ data_sample_dir }}/input"
+    validate_certs: no

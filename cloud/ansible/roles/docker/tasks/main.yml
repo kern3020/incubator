@@ -14,4 +14,12 @@
   sudo: true
   user: name=jkern group=docker
 
+- name: edit docker.io
+  sudo: true
+  lineinfile:
+    dest: /etc/default/docker.io
+    regexp: "^#DOCKER_OPTS"
+    line: 'DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4" '
+  notify:
+    - restart docker
 
