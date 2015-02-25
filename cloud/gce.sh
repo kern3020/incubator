@@ -31,6 +31,9 @@ case ${CMD}
   "add-disk") 
     gcloud compute disks create ${DISK_NAME} --size ${DISK_SIZE}GB --zone ${ZONE} 
     ;; 
+  "reset")
+    gcloud compute instances reset ${HOST} --zone ${ZONE}
+    ;;
   "ssh")   
     gcloud compute ssh ${HOST} --zone ${ZONE} 
     ;;
