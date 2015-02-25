@@ -15,6 +15,10 @@
     - ansible
     - elasticluster
 
+- name: apt-get upgrade
+  sudo: true
+  apt: upgrade=yes
+    
 - name: Does the bcbio image exist?
   shell: docker images | grep bcbio
   ignore_errors: yes
@@ -44,7 +48,7 @@
 - name: use conda to install bcbio-nextgen-vm
   shell: ~/install/bcbio-vm/anaconda/bin/conda install --yes -c https://conda.binstar.org/bcbio bcbio-nextgen-vm
   when: conda.stat.exists == False
-
+  
 - name: provide sym link in well-known location
   sudo: true
   file:
