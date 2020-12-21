@@ -1,0 +1,13 @@
+name: commence
+channels:
+  - bioconda
+  - conda-forge
+  - r
+  - pytorch
+  - default
+dependencies:
+  - python=3
+  - boto3
+  - numpy
+  - scipy
+  - pandas
